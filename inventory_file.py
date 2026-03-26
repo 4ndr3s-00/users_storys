@@ -16,30 +16,34 @@ def load_inventory():
 # Save inventory to file
 def save_inventory(inventory):
     with open(FILE_NAME, "w") as file:
-        json.dump(inventory, file)
+        json.dump(inventory, file, indent=4)
 
 
 # Add product
 def add_product(inventory):
     name = input("Enter product name: ")
 
-    while True:
+    # Validate price
+    valid_price = False
+    while not valid_price:
         try:
             price = float(input("Enter price: "))
             if price < 0:
                 print("Price cannot be negative.")
-                continue
-            break
+            else:
+                valid_price = True
         except:
             print("Invalid value.")
 
-    while True:
+    # Validate quantity
+    valid_quantity = False
+    while not valid_quantity:
         try:
             quantity = int(input("Enter quantity: "))
             if quantity < 0:
                 print("Quantity cannot be negative.")
-                continue
-            break
+            else:
+                valid_quantity = True
         except:
             print("Invalid value.")
 
@@ -61,6 +65,7 @@ def show_inventory(inventory):
         print("Inventory is empty.\n")
         return
 
+    print("\n--- INVENTORY ---")
     for product in inventory:
         print(f"{product['name']} | {product['price']} | {product['quantity']}")
     print()
@@ -83,6 +88,7 @@ def main():
         elif option == "2":
             show_inventory(inventory)
         elif option == "3":
+            print("Goodbye!")
             running = False
         else:
             print("Invalid option\n")
